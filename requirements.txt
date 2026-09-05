@@ -7,3 +7,4 @@ plotly
 scikit-learn
 xgboost
 openpyxl
+imbalanced-learn
