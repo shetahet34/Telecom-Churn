@@ -16,37 +16,36 @@ Customer acquisition costs in telecommunications are 5–7x higher than retentio
 
 ## 🚀 Key Modules & Interactive Features
 
-### 1. 📊 Executive KPI Dashboard
-- **Key Metrics**: Test portfolio size, overall predicted churn rate, count of high-risk accounts (>65% probability), and top churn triggers.
-- **Interactive Visualizations**:
+### 1. 📊 Executive Overview & Revenue Exposure
+- **Business KPIs**: Active monitored accounts, predicted churn rate, high-risk account count (>65%), and real-time **Monthly & Annual Revenue at Risk** estimation.
+- **Visual Hotspots**:
   - Churn probability distribution by **Contract Duration** (Month-to-month vs 1-Year vs 2-Year).
   - Churn risk across **Internet Service Type** (Fiber optic vs DSL vs No internet).
-  - Risk distribution vs **Tenure Months** (identifies critical customer lifetime drop-off periods).
-  - Churn rate broken down by **Payment Method** (Electronic check vs Auto-pay).
+  - **Tenure Cohort Risk** (identifies critical 0–6 month onboarding vulnerabilities).
+  - Risk distribution by **Payment Method** (Electronic check vs Auto-pay).
+- **Executive Takeaway Card**: Distills findings into plain-English business recommendations.
 
-### 2. 🧠 Global SHAP Explainability
-- **Mean Absolute SHAP Bar Plot**: Ranks the features that have the strongest overall impact on model decisions.
-- **Beeswarm Summary Plot**: Highlights feature directionality (e.g., how Month-to-Month contracts push probability into the churn zone).
-- **Interactive Dependence Plot**: Select any feature from a dropdown to see its exact non-linear relationship with churn log-odds and automated interaction detection.
+### 2. 💡 Why Customers Leave (Plain-English AI Drivers)
+- **Top Factor Ranking**: Visualizes the top 10 churn drivers with human-friendly labels and clear color-coding (🔴 Increases Risk vs 🟢 Builds Loyalty).
+- **Interactive Factor Explorer & Playbook**: Select any driver (e.g. Contract, Tech Support, Payment Method) to view comparative churn rates alongside an **Executive Playbook** detailing root cause, marketing campaigns, and expected retention boost.
 
-### 3. 🔍 Individual Customer Deep-Dive & Waterfall Explanations
-- Filter accounts by risk tier (*High Risk Only*, *Moderate*, *Low*).
-- Select any customer to view their complete service profile, predicted churn probability, and actual outcome.
-- Generates a **Local SHAP Waterfall Plot** showing the exact positive (red) and negative (blue) forces that shaped that customer's prediction.
+### 3. 👤 Customer Risk Profiler & Call Assistant
+- Designed specifically for customer success and retention call center agents.
+- **Search & Filter**: Find accounts by Customer ID, City, or Risk Tier (High / Moderate / Low).
+- **Local Factor Contribution Chart**: An intuitive horizontal impact chart showing exactly which factors push this specific customer toward leaving or staying.
+- **Automated Retention Action Plan**: Dynamically generates tailored next steps for the agent to save the account during renewal calls.
 
-### 4. ⚡ Interactive Retention "What-If" Simulator
-- Configure customer parameters (tenure, contract, internet type, tech support, online security, payment method).
-- Live churn probability gauge and risk tier classification.
-- **Simulate Retention Offers**:
-  - *Offer 1-Year Contract Discount*
-  - *Include Free Tech Support & Security*
-  - *Switch to Auto-Pay (Credit Card/Bank)*
-- Real-time **Save Impact** calculation (*e.g., "Churn probability dropped by 45.2 percentage points!"*).
+### 4. 🎯 Retention Offer Simulator (What-If Tester)
+- **Live Churn Risk Speedometer**: Dynamic Plotly gauge indicating real-time churn risk across green, yellow, and red zones.
+- **One-Click Retention Interventions**:
+  - *🎁 Upgrade to 1-Year Contract Discount*
+  - *🛡️ Bundle Free Tech Support & Online Security*
+  - *💳 Migrate to Automated Payment Method*
+- **Instant ROI & Revenue Saved**: Displays live before-and-after churn probability and projected annual revenue saved per account.
 
-### 5. 📁 Batch Scoring & CSV Export
-- Upload any new `.csv` or `.xlsx` file containing customer accounts.
-- The model automatically preprocesses, predicts probabilities, and assigns risk tiers.
-- One-click **Download Scored Accounts CSV** button to feed directly into customer relationship management (CRM) systems or call-center dialers.
+### 5. 📑 Prioritized Call List & File Scorer
+- **Call Queue**: Prioritized list of high-risk customers with real-time search, progress bars, and one-click **Download CSV**.
+- **Instant Batch File Scorer**: Drag-and-drop any new `.csv` or `.xlsx` customer list to score all accounts, classify risk tiers, and export enriched reports.
 
 ---
 
