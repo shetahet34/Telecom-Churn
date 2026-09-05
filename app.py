@@ -169,6 +169,9 @@ if 'Monthly Charges' not in test_df_enriched.columns:
 else:
     test_df_enriched['Estimated Monthly Revenue'] = test_df_enriched['Monthly Charges']
 
+test_df_enriched['Churn Percentage'] = np.round(test_df_enriched['Churn Probability'] * 100, 1)
+test_df_enriched['Churn Chance'] = test_df_enriched['Churn Percentage'].apply(lambda v: f"{v:.1f}%")
+
 # Feature naming dictionary for non-technical users
 FRIENDLY_FEATURE_NAMES = {
     'Contract_Month-to-month': 'Month-to-Month Contract',
@@ -233,7 +236,7 @@ with st.sidebar:
         max_value=0.70,
         value=0.50,
         step=0.05,
-        help="Accounts with predicted churn probability above this score will be flagged for immediate retention outreach."
+        help="Accounts with predicted churn chance above this cutoff will be flagged for immediate retention outreach."
     )
     
     st.markdown("---")
@@ -322,7 +325,7 @@ with tab1:
         <div class="metric-box">
             <div class="metric-label">High-Risk Accounts</div>
             <div class="metric-number" style="color: #ef4444;">{high_risk_accounts:,}</div>
-            <div class="metric-sub">Probability &gt; 65% (Urgent Action)</div>
+            <div class="metric-sub">Churn Chance &gt; 65% (Urgent Action)</div>
         </div>
         """, unsafe_allow_html=True)
     with col_kpi4:
@@ -363,7 +366,7 @@ with tab1:
             template="plotly_dark",
             height=320,
             showlegend=False,
-            yaxis_title="Average Churn Risk (%)",
+            yaxis_title="Average Churn Percentage (%)",
             xaxis_title="",
             margin=dict(l=20, r=20, t=20, b=20)
         )
@@ -389,7 +392,7 @@ with tab1:
             template="plotly_dark",
             height=320,
             showlegend=False,
-            yaxis_title="Average Churn Risk (%)",
+            yaxis_title="Average Churn Percentage (%)",
             xaxis_title="",
             margin=dict(l=20, r=20, t=20, b=20)
         )
@@ -419,7 +422,7 @@ with tab1:
             template="plotly_dark",
             height=320,
             coloraxis_showscale=False,
-            yaxis_title="Average Churn Risk (%)",
+            yaxis_title="Average Churn Percentage (%)",
             xaxis_title="",
             margin=dict(l=20, r=20, t=20, b=20)
         )
@@ -443,7 +446,7 @@ with tab1:
             template="plotly_dark",
             height=320,
             coloraxis_showscale=False,
-            xaxis_title="Average Churn Risk (%)",
+            xaxis_title="Average Churn Percentage (%)",
             yaxis_title="",
             margin=dict(l=20, r=20, t=20, b=20)
         )
@@ -635,7 +638,7 @@ with tab3:
     selected_account_idx = st.selectbox(
         "Select Customer Account to Diagnose:",
         options=subset_prof.index,
-        format_func=lambda i: f"Account ID: {subset_prof.loc[i].get('CustomerID', i)} | Churn Risk: {subset_prof.loc[i]['Churn Probability']*100:.1f}% | Contract: {subset_prof.loc[i]['Contract']}"
+        format_func=lambda i: f"Account ID: {subset_prof.loc[i].get('CustomerID', i)} | Churn Chance: {subset_prof.loc[i]['Churn Percentage']:.1f}% | Contract: {subset_prof.loc[i]['Contract']}"
     )
 
     account_row = test_df_enriched.loc[selected_account_idx]
@@ -658,14 +661,14 @@ with tab3:
         <div class="metric-box">
             <div class="metric-label">Risk Tier Assessment</div>
             <div style="margin-top: 6px; margin-bottom: 8px;">{badge_html}</div>
-            <div class="metric-sub">Real-time AI probability</div>
+            <div class="metric-sub">Real-time Churn Chance</div>
         </div>
         """, unsafe_allow_html=True)
     with p_c3:
         prob_color = '#ef4444' if account_prob >= 0.65 else ('#f59e0b' if account_prob >= 0.35 else '#10b981')
         st.markdown(f"""
         <div class="metric-box">
-            <div class="metric-label">Predicted Churn Risk</div>
+            <div class="metric-label">Predicted Churn Chance</div>
             <div class="metric-number" style="color: {prob_color};">{account_prob*100:.1f}%</div>
             <div class="metric-sub">Likelihood to cancel</div>
         </div>
@@ -807,7 +810,7 @@ with tab4:
         }])
 
     with sim_right:
-        st.markdown("#### 2. Live Churn Risk Speedometer")
+        st.markdown("#### 2. Live Churn Chance Speedometer")
 
         # Calculate baseline probability
         base_transformed = pd.DataFrame(
@@ -849,7 +852,7 @@ with tab4:
         fig_gauge = go.Figure(go.Indicator(
             mode="gauge+number+delta",
             value=new_prob,
-            title={'text': "<b>Current Churn Risk Score</b>", 'font': {'size': 20, 'color': '#ffffff'}},
+            title={'text': "<b>Current Churn Chance</b>", 'font': {'size': 20, 'color': '#ffffff'}},
             delta={'reference': base_prob, 'increasing': {'color': '#ef4444'}, 'decreasing': {'color': '#10b981'}},
             number={'suffix': "%", 'font': {'color': gauge_color, 'size': 38}},
             gauge={
@@ -882,19 +885,19 @@ with tab4:
         r_card1, r_card2 = st.columns(2)
         with r_card1:
             st.metric(
-                label="Churn Risk Before Interventions",
+                label="Churn Chance Before Interventions",
                 value=f"{base_prob:.1f}%"
             )
         with r_card2:
             st.metric(
-                label="Churn Risk After Interventions",
+                label="Churn Chance After Interventions",
                 value=f"{new_prob:.1f}%",
                 delta=f"-{risk_reduction:.1f}%" if risk_reduction > 0 else "0.0%",
                 delta_color="inverse"
             )
 
         if risk_reduction > 5:
-            st.success(f"🎉 **Retention Success!** This offer package reduces churn likelihood by **{risk_reduction:.1f} percentage points**, saving an estimated **${saved_annual:,.0f} / year** in recurring revenue on this customer!")
+            st.success(f"🎉 **Retention Success!** This offer package reduces churn chance by **{risk_reduction:.1f} percentage points**, saving an estimated **${saved_annual:,.0f} / year** in recurring revenue on this customer!")
         else:
             st.info("💡 Try checking one or more retention offers above to simulate churn risk reduction.")
 
@@ -913,7 +916,7 @@ with tab5:
         call_queue = filtered_df.copy()
         call_queue = call_queue.sort_values('Churn Probability', ascending=False)
         
-        display_cols = ['CustomerID', 'Churn Probability', 'Risk Tier', 'Contract', 'Tenure Months', 'Internet Service', 'Payment Method', 'Estimated Monthly Revenue']
+        display_cols = ['CustomerID', 'Churn Chance', 'Churn Percentage', 'Risk Tier', 'Contract', 'Tenure Months', 'Internet Service', 'Payment Method', 'Estimated Monthly Revenue']
         available_cols = [c for c in display_cols if c in call_queue.columns]
         
         search_query = st.text_input("🔍 Search by Customer ID or City:", placeholder="e.g. 7590-VHVEG or Los Angeles")
@@ -928,12 +931,12 @@ with tab5:
             call_queue[available_cols].head(50),
             use_container_width=True,
             column_config={
-                "Churn Probability": st.column_config.ProgressColumn(
-                    "Churn Probability",
-                    help="Estimated probability that customer leaves",
+                "Churn Percentage": st.column_config.ProgressColumn(
+                    "Churn Percentage",
+                    help="Estimated churn percentage (chance that customer leaves)",
                     format="%.1f%%",
                     min_value=0,
-                    max_value=1,
+                    max_value=100,
                 ),
                 "Estimated Monthly Revenue": st.column_config.NumberColumn(
                     "Monthly Value",
@@ -993,11 +996,12 @@ with tab5:
             b_preds = (b_probas >= threshold).astype(int)
 
             scored = batch_input_df.copy()
-            scored['Churn Probability'] = np.round(b_probas, 4)
+            scored['Churn Percentage'] = np.round(b_probas * 100, 1)
+            scored['Churn Chance'] = scored['Churn Percentage'].apply(lambda x: f"{x:.1f}%")
             scored['Predicted Churn'] = b_preds
             scored['Risk Tier'] = pd.cut(
-                scored['Churn Probability'],
-                bins=[-0.01, 0.35, 0.65, 1.01],
+                scored['Churn Percentage'],
+                bins=[-0.1, 35.0, 65.0, 100.1],
                 labels=['Low Risk', 'Moderate Risk', 'High Risk']
             )
 
@@ -1012,7 +1016,7 @@ with tab5:
                 st.metric("Revenue at Risk", f"${b_rev:,.0f}/mo")
 
             st.dataframe(
-                scored[['Tenure Months', 'Contract', 'Internet Service', 'Payment Method', 'Churn Probability', 'Risk Tier']].head(25),
+                scored[['Tenure Months', 'Contract', 'Internet Service', 'Payment Method', 'Churn Chance', 'Risk Tier']].head(25),
                 use_container_width=True
             )
 

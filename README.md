@@ -17,9 +17,9 @@ Customer acquisition costs in telecommunications are 5–7x higher than retentio
 ## 🚀 Key Modules & Interactive Features
 
 ### 1. 📊 Executive Overview & Revenue Exposure
-- **Business KPIs**: Active monitored accounts, predicted churn rate, high-risk account count (>65%), and real-time **Monthly & Annual Revenue at Risk** estimation.
+- **Business KPIs**: Active monitored accounts, predicted churn percentage, high-risk account count (>65% churn chance), and real-time **Monthly & Annual Revenue at Risk** estimation.
 - **Visual Hotspots**:
-  - Churn probability distribution by **Contract Duration** (Month-to-month vs 1-Year vs 2-Year).
+  - Churn percentage distribution by **Contract Duration** (Month-to-month vs 1-Year vs 2-Year).
   - Churn risk across **Internet Service Type** (Fiber optic vs DSL vs No internet).
   - **Tenure Cohort Risk** (identifies critical 0–6 month onboarding vulnerabilities).
   - Risk distribution by **Payment Method** (Electronic check vs Auto-pay).
@@ -36,12 +36,12 @@ Customer acquisition costs in telecommunications are 5–7x higher than retentio
 - **Automated Retention Action Plan**: Dynamically generates tailored next steps for the agent to save the account during renewal calls.
 
 ### 4. 🎯 Retention Offer Simulator (What-If Tester)
-- **Live Churn Risk Speedometer**: Dynamic Plotly gauge indicating real-time churn risk across green, yellow, and red zones.
+- **Live Churn Chance Speedometer**: Dynamic Plotly gauge indicating real-time churn chance across green, yellow, and red zones.
 - **One-Click Retention Interventions**:
   - *🎁 Upgrade to 1-Year Contract Discount*
   - *🛡️ Bundle Free Tech Support & Online Security*
   - *💳 Migrate to Automated Payment Method*
-- **Instant ROI & Revenue Saved**: Displays live before-and-after churn probability and projected annual revenue saved per account.
+- **Instant ROI & Revenue Saved**: Displays live before-and-after churn percentage / churn chance and projected annual revenue saved per account.
 
 ### 5. 📑 Prioritized Call List & File Scorer
 - **Call Queue**: Prioritized list of high-risk customers with real-time search, progress bars, and one-click **Download CSV**.
